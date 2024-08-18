@@ -22,7 +22,7 @@ console.log("hello")
 
 //_______MODEL_________________
 //add let = turn, toggles between X and 0
-// wrap inside iife ( module pattern)
+// wrap inside iife ( module pattern) const game = (f() {stuf})();
 function createGameField(dim) {
     //set Turn to X
     let turn = "X"
@@ -44,8 +44,7 @@ function createGameField(dim) {
     //closure, since f accesses parents scope var
 
     const placeToken = function placeToken(x, y) {
-        let length = gameField.field.length
-        let field = gameField.field
+        let length = field.length
         if (x >= length || y >= length){
             console.log("out of bounds")
             return
@@ -69,7 +68,7 @@ function createGameField(dim) {
         for (let i = 0; i < dim; i++) {
             let row = []
             for (let j = 0; j < dim; j++){
-                console.log(`${i} ${j}`)
+                //console.log(`${i} ${j}`)
                 row.push(field[i][j])
             }
             if(allEqual(row) != "+"){
@@ -85,13 +84,13 @@ function createGameField(dim) {
         for (let i = 0; i < dim; i++) {
             let collum = []
             for (let j = 0; j < dim; j++){
-                console.log(`${j} ${i}`)
-                console.log(field[j][i])
+                //console.log(`${j} ${i}`)
+                //console.log(field[j][i])
                 collum.push(field[j][i])
             }
             if(allEqual(collum) != "+"){
                 //explicit notaion: not sure why
-                return {Winner: collum[0],orientation: "verr", index: i }
+                return {winner: collum[0],orientation: "verr", index: i }
             }       
         }
 
@@ -104,15 +103,12 @@ function createGameField(dim) {
         console.log("alleq" + row)
 
         if (row[0] != "X" && row[0] != "O"){
-            console.log("now1")
             return "+"
         }
 
         if (row.every(v => v === row[0])){
-            console.log("this")
             return row[0]
         }
-        console.log("now")
         
         return "+"
     }
@@ -142,18 +138,19 @@ function printField(gameField) {
 // build the tui here...
 
 
+//____Main___
+
+
+
 
 
 //________TEST AREA_________//
 let gameField = createGameField(3)
 
 
-console.log(printField(gameField))
 
 console.log(gameField.placeToken(0,0))
-console.log(printField(gameField))
 console.log(gameField.placeToken(1,0))
-console.log(printField(gameField))
 
 console.log(gameField.placeToken(0,1))
 console.log(gameField.placeToken(1,1))
@@ -173,9 +170,12 @@ gameField.field[1][1] = "X"
 
 console.log(gameField.toString())
 
-
+const res = gameField.checkForWinner()
+console.log("Winner" + res.winner)
 console.log(gameField.checkForWinner())
 console.log(gameField.toString())
+console.log(gameField.checkForWinner())
+
 
 
 
