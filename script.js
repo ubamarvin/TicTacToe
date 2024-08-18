@@ -65,6 +65,7 @@ function createGameField(dim) {
     const checkForWinner = function() {
         
         // horizontally
+        console.log("checking hori")
         for (let i = 0; i < dim; i++) {
             let row = []
             for (let j = 0; j < dim; j++){
@@ -73,12 +74,14 @@ function createGameField(dim) {
             }
             if(allEqual(row) != "+"){
                 //explicit notaion: not sure why
-                return {Winner: row[0], row: i }
+                return {Winner: row[0],orientation: "hor", index: i }
             }       
         }
         
         //0,0  1,0 2,0
         // vertically
+        console.log("checking vertic")
+
         for (let i = 0; i < dim; i++) {
             let collum = []
             for (let j = 0; j < dim; j++){
@@ -88,7 +91,7 @@ function createGameField(dim) {
             }
             if(allEqual(collum) != "+"){
                 //explicit notaion: not sure why
-                return {Winner: collum[0], collum: i }
+                return {Winner: collum[0],orientation: "verr", index: i }
             }       
         }
 
@@ -99,12 +102,17 @@ function createGameField(dim) {
     function allEqual(row){
         //check if either is player Symbol..
         console.log("alleq" + row)
-        let symbol = row[0]
-        if (row[0] != "X" && !row[0] != "O")
-            return "+"
 
-        if (row.every(v => v === row[0]))
+        if (row[0] != "X" && row[0] != "O"){
+            console.log("now1")
+            return "+"
+        }
+
+        if (row.every(v => v === row[0])){
+            console.log("this")
             return row[0]
+        }
+        console.log("now")
         
         return "+"
     }
@@ -157,11 +165,17 @@ console.log(gameField.placeToken(2,1))
 
 
 
-//gameField.field[0][2] = "+"
+gameField.field[0][2] = "O"
+gameField.field[1][2] = "O"
+gameField.field[2][2] = "O"
+gameField.field[1][1] = "X"
+
+
 console.log(gameField.toString())
 
 
 console.log(gameField.checkForWinner())
+console.log(gameField.toString())
 
 
 
