@@ -18,6 +18,9 @@ console.log("hello")
 
 // step 3 fun for players to manipulate gameboard
 
+
+
+//_______MODEL_________________
 //add let = turn, toggles between X and 0
 // wrap inside iife ( module pattern)
 function createGameField(dim) {
@@ -27,6 +30,7 @@ function createGameField(dim) {
     let field = Array.from({length: dim}, () => Array(dim).fill("+") )
     
     //get Symbol of current turn and set to next
+    //closure, since f accesses parents scope var
     const getAndSetTurn = function (){
         let oldTurn = turn;
         if (oldTurn === "X"){
@@ -37,6 +41,8 @@ function createGameField(dim) {
         return oldTurn
     }
     //place Token inside field
+    //closure, since f accesses parents scope var
+
     const placeToken = function placeToken(x, y) {
         let length = gameField.field.length
         let field = gameField.field
@@ -52,15 +58,49 @@ function createGameField(dim) {
         }
         //place token
         field[x][y] = getAndSetTurn()
-        //return updated boa
+        //return updated board?
     }
-    return { field, getAndSetTurn, placeToken }
+    const checkForWinner = function() {
+        //go thru all horizontal line
+        let row = ""
+        for (let i = 0; i < dim; i++) {
+            let row = ""
+            for (let j = 0; j < dim; j++){
+                console.log(`${i} ${j}`)
+                row += field[i][j]
+            }
+            console.log(row)
+
+        }
+        
+
+            
+
+        //go thru all vertical lines
+
+        //go thru the diagonal line
+
+    }
+
+    //closure, since f accesses parents scope var
+    const toString = function printField() {
+        return field.map(row => `[ ${row.join(' ')}]`).join("\n")
+    }
+
+    return { field, getAndSetTurn, placeToken, toString, checkForWinner }
+
 }
 
 function printField(gameField) {
     return gameField.field.map(row => `[ ${row.join(' ')}]`).join("\n")
 }
 
+
+//Controller
+//communicates between model and view
+
+//View
+//...renders the dom
 
 
 
@@ -79,7 +119,12 @@ console.log(printField(gameField))
 console.log(gameField.placeToken(0,0))
 
 
-console.log(printField(gameField))
+console.log(gameField.toString())
+
+gameField.checkForWinner()
+
+
+
 
 
 
