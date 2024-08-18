@@ -71,7 +71,7 @@ function createGameField(dim) {
                 //console.log(`${i} ${j}`)
                 row.push(field[i][j])
             }
-            if(allEqual(row) != "+"){
+            if(allEqual(row)){
                 //explicit notaion: not sure why
                 return {Winner: row[0],orientation: "hor", index: i }
             }       
@@ -88,13 +88,22 @@ function createGameField(dim) {
                 //console.log(field[j][i])
                 collum.push(field[j][i])
             }
-            if(allEqual(collum) != "+"){
+            if(allEqual(collum)){
                 //explicit notaion: not sure why
-                return {winner: collum[0],orientation: "verr", index: i }
+                return {winner: collum[0],orientation: "ver", index: i }
             }       
         }
 
+
         //go thru the diagonal line
+        let diag = []
+        let j = 0;
+        for (let i = 0; i < dim; i++) {
+            diag.push(field[i][j])
+        }
+        if(allEqual(diag))
+            return{winner: diag[0], orientation: "diag", index: 0 }
+        
 
     }
 
@@ -103,14 +112,14 @@ function createGameField(dim) {
         console.log("alleq" + row)
 
         if (row[0] != "X" && row[0] != "O"){
-            return "+"
+            return false
         }
 
         if (row.every(v => v === row[0])){
-            return row[0]
+            return true
         }
         
-        return "+"
+        return false
     }
     
             
