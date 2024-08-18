@@ -60,33 +60,63 @@ function createGameField(dim) {
         field[x][y] = getAndSetTurn()
         //return updated board?
     }
+    //returns if player won, which and where
+    //returns an object
     const checkForWinner = function() {
-        //go thru all horizontal line
-        let row = ""
+        
+        // horizontally
         for (let i = 0; i < dim; i++) {
-            let row = ""
+            let row = []
             for (let j = 0; j < dim; j++){
                 console.log(`${i} ${j}`)
-                row += field[i][j]
+                row.push(field[i][j])
             }
-            console.log(row)
-
+            if(allEqual(row) != "+"){
+                //explicit notaion: not sure why
+                return {Winner: row[0], row: i }
+            }       
         }
         
-
-            
-
-        //go thru all vertical lines
+        //0,0  1,0 2,0
+        // vertically
+        for (let i = 0; i < dim; i++) {
+            let collum = []
+            for (let j = 0; j < dim; j++){
+                console.log(`${j} ${i}`)
+                console.log(field[j][i])
+                collum.push(field[j][i])
+            }
+            if(allEqual(collum) != "+"){
+                //explicit notaion: not sure why
+                return {Winner: collum[0], collum: i }
+            }       
+        }
 
         //go thru the diagonal line
 
     }
 
+    function allEqual(row){
+        //check if either is player Symbol..
+        console.log("alleq" + row)
+        let symbol = row[0]
+        if (row[0] != "X" && !row[0] != "O")
+            return "+"
+
+        if (row.every(v => v === row[0]))
+            return row[0]
+        
+        return "+"
+    }
+    
+            
+
     //closure, since f accesses parents scope var
     const toString = function printField() {
         return field.map(row => `[ ${row.join(' ')}]`).join("\n")
     }
-
+    // implicit Object Propertys
+    // Shorthand notation: Each Property matches data within scope of function
     return { field, getAndSetTurn, placeToken, toString, checkForWinner }
 
 }
@@ -101,27 +131,37 @@ function printField(gameField) {
 
 //View
 //...renders the dom
+// build the tui here...
 
 
 
 
 //________TEST AREA_________//
-let gameField = createGameField(4)
+let gameField = createGameField(3)
 
 
-console.log(printField(gameField))
-
-console.log(gameField.placeToken(3,3))
-console.log(printField(gameField))
-console.log(gameField.placeToken(3,3))
 console.log(printField(gameField))
 
 console.log(gameField.placeToken(0,0))
+console.log(printField(gameField))
+console.log(gameField.placeToken(1,0))
+console.log(printField(gameField))
+
+console.log(gameField.placeToken(0,1))
+console.log(gameField.placeToken(1,1))
+console.log(gameField.placeToken(0,2))
+console.log(gameField.placeToken(2,1))
 
 
+
+
+
+
+//gameField.field[0][2] = "+"
 console.log(gameField.toString())
 
-gameField.checkForWinner()
+
+console.log(gameField.checkForWinner())
 
 
 
